@@ -1,5 +1,5 @@
 <h1 align="center"><a href="https://github.com/h4r5h1t-hrs/CertCheck.git">CertCheck</a></h1>
-<h4 align="center">An automation tool that enumerate subdomains then filters out xss, sqli, open redirect, lfi, ssrf and rce parameters and then scans for vulnerabilities.</h4>
+<h4 align="center">A Python tool to check and validate SSL/TLS certificates for common misconfigurations and output the results in JSON format.</h4>
 
 <p align="center">
 <a href="https://twitter.com/h4r5h1t_hrs"><img src="https://img.shields.io/twitter/follow/h4r5h1t_hrs?style=social"></a>
@@ -16,7 +16,7 @@
   <a href="#usage">Usage</a> •
 </p>
 
-This Python script checks the expiration date and other information of a website's SSL/TLS certificate. It uses asyncio and SSLContext to make secure connections to websites and obtain SSL certificate information. The script validates the SSL/TLS certificate for common misconfigurations like Expired Certificates, Self-signed Certificates, Mismatched Certificates, Revoked Certificates, and outputs the SSL/TLS certificate information in a formatted JSON object.
+This Python tool checks the expiration date and other information of a website's SSL/TLS certificate. It uses asyncio and SSLContext to make secure connections to websites and obtain SSL certificate information. The tool validates the SSL/TLS certificate for common misconfigurations like Expired Certificates, Self-signed Certificates, Mismatched Certificates, Revoked Certificates, and outputs the SSL/TLS certificate information in a formatted JSON object.
 
 ## Features
 - Checks the expiration date and other information of a website's SSL/TLS certificate
