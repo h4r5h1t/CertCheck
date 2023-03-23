@@ -9,6 +9,7 @@ import datetime
 import json
 import asyncio
 import OpenSSL
+from ocspchecker import ocspchecker
 from typing import List, Dict
 from argparse import ArgumentParser, ArgumentError
 from furl import furl
@@ -101,11 +102,18 @@ async def check_ssl_validity(ssl_info, hostname:str, port:int) -> dict:
         _, writer = await asyncio.open_connection(hostname, port, ssl=ssl_context)
         writer.close()
         await writer.wait_closed()
-    except ssl.SSLError as error_code:
-        if 'revoked' in str(error_code).lower():
+
+        # Check if the SSL certificate is revoked
+        ocsp_request = ocspchecker.get_ocsp_status(hostname)
+        if ocsp_request and 'OCSP Status: GOOD' in ocsp_request:
+            pass
+        else:
             results["valid"] = False
-            results["error"] = "The SSL/TLS certificate has been revoked."
-        elif 'unknown' in str(error_code).lower():
+            results["error"] = "The SSL/TLS certificate is revoked."
+            return results
+
+    except ssl.SSLError as error_code:
+        if 'unknown' in str(error_code).lower():
             results["valid"] = False
             results["error"] = "The SSL/TLS certificate is not trusted."
         else:
