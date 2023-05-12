@@ -31,11 +31,7 @@ resource "aws_s3_bucket" "first-tf-bucket-tst" {
   versioning {
     enabled = true
   }
-  #Ensure that S3 bucket has a Public Access block
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+
   #Ensure that an S3 bucket has a lifecycle configuration
   lifecycle_rule {
     id      = "log"
@@ -78,7 +74,7 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
 resource "aws_s3_bucket_public_access_block" "example" {
   bucket = aws_s3_bucket.first-tf-bucket-tst.id
 
-  block_public_acls       = true
+  block_public_acls       = false
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
