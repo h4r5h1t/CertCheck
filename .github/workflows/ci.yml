@@ -44,11 +44,13 @@ jobs:
   checkov-docker:
     runs-on: ubuntu-latest
     container:
-      image: g12m0/testcheckov:latest
+      image: g12m0/testov:latest
+      volumes:
+        - ${{ github.workspace }}:/app
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run IaC check
         run: |
           echo "Running IaC check: " $PWD
-          checkov -d iac/
+          checkov -d .
