@@ -8,10 +8,10 @@ import ssl
 import datetime
 import json
 import asyncio
-import OpenSSL
-from ocspchecker import ocspchecker
 from typing import List, Dict
 from argparse import ArgumentParser, ArgumentError
+import OpenSSL
+from ocspchecker import ocspchecker
 from furl import furl
 
 async def get_ssl_info(hostname, port, debug:bool=False):
