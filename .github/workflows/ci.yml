@@ -25,6 +25,7 @@ jobs:
         run: |
           pylint certcheck || (exit 0)
           pylint_score=$(pylint --exit-zero --reports=n certcheck | awk -F'[/:]' '/Your code has been rated/{print $2}')
+          echo "Pylint score is $pylint_score"
           if [[ "$pylint_score" > 9 ]]; then
             echo "Pylint score is greater than 9"
           else
@@ -40,4 +41,4 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run IaC check
-        run: checkov -d .
+        run: checkov -d iac/
