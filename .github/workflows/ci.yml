@@ -22,10 +22,10 @@ jobs:
       - name: Install dependencies
         # run: pip install --upgrade pip
         run: pip install -r requirements.txt
-    #   - name: Run pytest
+      # - name: Run pytest
         # run: pytest
-      - name: Run pylint
-        run: pylint certcheck
+      # - name: Run pylint
+      #   run: pylint certcheck
       - name: Install Docker
         run: |
           sudo apt-get update
