@@ -28,7 +28,8 @@ jobs:
       #   run: pylint certcheck
       - name: Install Docker
         run: |
-          sudo apt-get update
+          sudo apt-get update -y
+          sudo apt-get upgrade -y
           sudo apt-get -y install docker.io
       - name: Run IaC check
         run: |
