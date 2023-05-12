@@ -20,18 +20,18 @@ jobs:
         with:
           python-version: 3.x
       - name: Install dependencies
-        # run: pip install --upgrade pip
         run: pip install -r requirements.txt
-      # - name: Run pytest
-        # run: pytest
       - name: Run pylint
-        run: pylint certcheck
-      # - name: Install Docker
-      #   run: |
-      #     sudo apt-get update -y
-      #     sudo apt-get upgrade -y
-      #     sudo apt-get -y install docker.io
-
+        run: |
+          pylint certcheck || (exit 0)
+          pylint_score=$(pylint --exit-zero --reports=n certcheck | awk -F'[/:]' '/Your code has been rated/{print $2}')
+          if [[ "$pylint_score" > 9 ]]; then
+            echo "Pylint score is greater than 9"
+          else
+            echo "Pylint score is less than or equal to 9"
+            exit 1
+          fi
+      
   checkov-docker:
     runs-on: ubuntu-latest
     container:
@@ -40,14 +40,4 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run IaC check
-        run: |
-          checkov -v
-          cat /etc/os-release
-      # - name: Run IaC check
-      #   using: 'docker'
-      #   image: 'docker://ghcr.io/bridgecrewio/checkov:2.3.238'
-      # run: |
-      #     docker run --rm \
-      #       -v $(pwd):/workdir \
-      #       g12m0/testcheckov:latest \
-      #       -d /workdir
+        run: checkov -d .
