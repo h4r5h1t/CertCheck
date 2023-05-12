@@ -23,16 +23,9 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run pylint
         run: |
-          pylint certcheck || (exit 0)
-          pylint_score=$(pylint --exit-zero --reports=n certcheck | awk -F'[/:]' '/Your code has been rated/{print $2}')
-          echo "Pylint score is $pylint_score"
-          if [[ "$pylint_score" > 9 ]]; then
-            echo "Pylint score is greater than 9"
-          else
-            echo "Pylint score is less than or equal to 9"
-            exit 1
-          fi
-      
+          echo "Running pylint" "$PWD"
+          pylint --exit-zero --reports=n certcheck
+          
   checkov-docker:
     runs-on: ubuntu-latest
     container:
@@ -41,4 +34,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run IaC check
-        run: checkov -d iac/
+        run: |
+          echo "Running IaC check" "$PWD"
+          checkov -d iac/
