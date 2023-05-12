@@ -24,16 +24,30 @@ jobs:
         run: pip install -r requirements.txt
       # - name: Run pytest
         # run: pytest
-      # - name: Run pylint
-      #   run: pylint certcheck
-      - name: Install Docker
-        run: |
-          sudo apt-get update -y
-          sudo apt-get upgrade -y
-          sudo apt-get -y install docker.io
+      - name: Run pylint
+        run: pylint certcheck
+      # - name: Install Docker
+      #   run: |
+      #     sudo apt-get update -y
+      #     sudo apt-get upgrade -y
+      #     sudo apt-get -y install docker.io
+
+  checkov-docker:
+    runs-on: ubuntu-latest
+    container:
+      image: g12m0/testcheckov:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Run IaC check
         run: |
-          docker run --rm \
-            -v $(pwd):/workdir \
-            g12m0/testcheckov:latest \
-            -d /workdir
+          checkov -v
+          cat /etc/os-release
+      # - name: Run IaC check
+      #   using: 'docker'
+      #   image: 'docker://ghcr.io/bridgecrewio/checkov:2.3.238'
+      # run: |
+      #     docker run --rm \
+      #       -v $(pwd):/workdir \
+      #       g12m0/testcheckov:latest \
+      #       -d /workdir
