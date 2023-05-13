@@ -134,3 +134,6 @@ dist/
 
 # Setuptools
 *.egg-info/
+
+# VS Code
+.vscode/
