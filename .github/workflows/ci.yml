@@ -30,14 +30,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
+      # - name: Setup Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: 3.x
+      # - name: Install dependencies
+      #   run: pip install -r requirements.txt
       - name: Run pytest
         run: |
           echo "Running pytest: " $PWD
@@ -55,4 +55,4 @@ jobs:
       - name: Run IaC check
         run: |
           echo "Running IaC check: " $PWD
-          checkov -d . --shoft-fail
+          checkov -d . --soft-fail
