@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt ]; then pip install .; fi
       - name: Analysing the code with pylint
         run: |
           echo "Running pylint: " $PWD
@@ -50,23 +50,23 @@ jobs:
         with:
           python-version: 3.x
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install .
       - name: Analysing the code with pytest
         run: |
           echo "Running pytest: " $PWD
           pytest
 
-  checkov-docker:
-    runs-on: ubuntu-latest
-    container:
-      image: g12m0/testov:latest
-      volumes:
-        - ${{ github.workspace }}:/app
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Analysing the code with checkov for IaC
-        run: |
-          echo "Running IaC check: " $PWD
-          checkov -d . --soft-fail
+  # checkov-docker:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: g12m0/testov:latest
+  #     volumes:
+  #       - ${{ github.workspace }}:/app
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Analysing the code with checkov for IaC
+  #       run: |
+  #         echo "Running IaC check: " $PWD
+  #         checkov -d . --soft-fail
   

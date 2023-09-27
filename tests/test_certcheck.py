@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, '.')
 import pytest
-from certcheck.certcheck import *
+from certcheck import *
 
 # import asyncio
 # import unittest

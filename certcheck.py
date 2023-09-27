@@ -4,6 +4,7 @@ A simple python script to check and validate the SSL/TLS certificate information
 """
 
 import os
+import sys
 import ssl
 import datetime
 import json
@@ -72,18 +73,20 @@ async def check_ssl_validity(ssl_info, hostname:str, port:int) -> dict:
         # Check if the SSL certificate has expired or is not yet valid
         not_after = datetime.datetime.strptime(ssl_info["notAfter"], '%b %d %H:%M:%S %Y %Z')
         not_before = datetime.datetime.strptime(ssl_info["notBefore"], '%b %d %H:%M:%S %Y %Z')
+ 
+        # Misconfigure
         if now > not_after:
             results["valid"] = False
             results["error"] = "The SSL/TLS certificate has expired."
             return results
-        elif now < not_before:
+        if now < not_before:
             results["valid"] = False
             results["error"] = "The SSL/TLS certificate is not yet valid."
             return results
-        else:
-            results["issued_date"] = not_before.strftime("%Y-%m-%d %H:%M:%S")
-            results["expiration_date"] = not_after.strftime("%Y-%m-%d %H:%M:%S")
-            results["days_until_expiration"] = (not_after - now).days
+
+        results["issued_date"] = not_before.strftime("%Y-%m-%d %H:%M:%S")
+        results["expiration_date"] = not_after.strftime("%Y-%m-%d %H:%M:%S")
+        results["days_until_expiration"] = (not_after - now).days
 
     try:
         # Check if the SSL certificate matches the domain name
@@ -256,6 +259,12 @@ async def check_certificate(url:str, debug:bool=False) -> dict:
             url:{}
         }
 
+async def check_certificates(urls, debug=False):
+    """
+    Check certificates for a list of URLs and return the results.
+    """
+    return await asyncio.gather(*[check_certificate(url.strip(), debug=debug) for url in urls])
+
 def parse_args() -> ArgumentParser:
     """
     Parse the command line arguments.
@@ -264,14 +273,14 @@ def parse_args() -> ArgumentParser:
     parser = ArgumentParser(
         prog = "certcheck",
         description="A simple python script to check and validate the SSL/TLS certificate information of a website.",
-        epilog="Example: python certcheck -u https://example.com [-o output.txt] [--debug]"
+        epilog="Example: certcheck -u https://example.com [-o output.txt] [--debug]"
     )
     parser.add_argument("-u", "--url", type=str, nargs='+', dest="url", help="Provide URL or list of URLs to check", required=True)
     parser.add_argument("-o", "--output", type=str, dest="output", default=None, help="In addition to STDOUT also write results to file.")
     parser.add_argument("--debug", action="store_true", dest="debug", help="Enable debug mode")
     return parser.parse_args()
 
-async def main():
+def main():
     """
     Main function.
     """
@@ -286,7 +295,7 @@ async def main():
         # Check if the URL argument was provided
         if args.url:
             # Check the certificate and append the results to the output list
-            output_list = await asyncio.gather(*[check_certificate(url.strip(), debug=args.debug) for url in args.url])
+            output_list = asyncio.run(check_certificates(args.url, debug=args.debug))
 
         else:
             # If the URL argument was not provided, print an error message and exit
@@ -311,3 +320,9 @@ async def main():
         print(arg_err)
     except Exception as exp:
         print(exp)
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit()

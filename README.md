@@ -1,13 +1,13 @@
-<h1 align="center"><a href="https://github.com/h4r5h1t-hrs/CertCheck.git">CertCheck</a></h1>
+<h1 align="center"><a href="https://github.com/h4r5h1t/CertCheck.git">CertCheck</a></h1>
 <h4 align="center">A Python tool to check and validate SSL/TLS certificates for common misconfigurations and output the results in JSON format.</h4>
 
 <p align="center">
 <a href="https://twitter.com/h4r5h1t_hrs"><img src="https://img.shields.io/twitter/follow/h4r5h1t_hrs?style=social"></a>
-<a href="https://github.com/h4r5h1t-hrs?tab=followers"><img src="https://img.shields.io/github/followers/h4r5h1t-hrs?style=social"></a>
-<a href="https://github.com/h4r5h1t-hrs/webcopilot/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
-<a href="https://github.com/h4r5h1t-hrs/webcopilot/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
-<a href="#"><img src="https://img.shields.io/badge/Made%20with-python-1f425f.svg"></a>
-<a href="#"><img src="https://madewithlove.org.in/badge.svg"></a>
+<a href="https://github.com/h4r5h1t?tab=followers"><img src="https://img.shields.io/github/followers/h4r5h1t?style=social"></a>
+<a href="https://github.com/h4r5h1t/CertCheck/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
+<a href="https://github.com/h4r5h1t/CertCheck/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+<a href="#"><img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg"></a>
+<a href="#"><img src="https://madewithlove.now.sh/in?heart=true"></a>
 </p>
 
 <p align="center">
@@ -42,9 +42,9 @@ This Python tool checks the expiration date and other information of a website's
 ## Installation
 
 ```bash
-git clone https://github.com/h4r5h1t-hrs/CertCheck.git
+git clone https://github.com/h4r5h1t/CertCheck.git
 cd CertCheck
-pip install -r requirements.txt
+pip install .
 ```
 
 # Usage
@@ -66,27 +66,27 @@ options:
                         In addition to STDOUT also write results to file.
   --debug               Enable debug mode
 
-Example: python certcheck -u https://example.com [-o output.txt] [--debug]
+Example: certcheck -u https://example.com [-o output.txt] [--debug]
 ```
 
 To check the SSL/TLS Certificate information of a single URL, use the '-u' flag and provide the URL as an argument:
 ```bash
-python certcheck -u https://example.com
+certcheck -u https://example.com
 ```
 
 To check the SSL/TLS Certificate information of multiple URLs, provide a list of URLs separated by spaces:
 ```bash
-python certcheck -u https://example.com https://google.com https://apple.com
+certcheck -u https://example.com https://google.com https://apple.com
 ```
 
 To save the results to a file, use the '-o' flag and provide the file path as an argument:
 ```bash
-python certcheck -u https://example.com -o output.txt
+certcheck -u https://example.com -o output.txt
 ```
 
 To enable debug mode, use the '--debug' flag:
 ```bash
-python certcheck -u https://example.com --debug
+certcheck -u https://example.com --debug
 ```
 
 <table>
